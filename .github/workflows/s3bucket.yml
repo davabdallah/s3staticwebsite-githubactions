@@ -47,7 +47,7 @@ jobs:
                 "Sid": "PublicReadGetObject",
                 "Effect": "Allow",
                 "Principal": {
-                  "AWS": "arn:aws:iam::215318908877:user/*"
+                  "AWS": "arn:aws:iam::215318908877:user/github-actions"
                 },
             ],
             "Resource": [
