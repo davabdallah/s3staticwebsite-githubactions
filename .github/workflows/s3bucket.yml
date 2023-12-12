@@ -54,7 +54,7 @@ jobs:
 
     - name: Deploy static site to S3 bucket
       run: |
-        aws s3 sync ./ s3://primuslearning-githubactions-website/public/ --delete
+        aws s3 sync ./ s3://primuslearning-githubactions-website/ --delete
 
     - name: Configure S3 Website
       run: |
