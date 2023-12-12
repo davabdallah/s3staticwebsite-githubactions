@@ -74,12 +74,6 @@ jobs:
                 }
             }'
 
-    - name: Set Object ACL for 'public' Folder
-      run: |
-          aws s3api put-object-acl \
-            --bucket primuslearning-githubactions-website \
-            --key public/ \
-            --acl public-read
 
     - name: Display Website URL
       run: |
