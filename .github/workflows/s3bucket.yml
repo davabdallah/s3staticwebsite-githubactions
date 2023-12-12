@@ -43,12 +43,12 @@ jobs:
             {
             "Sid": "PublicReadGetObject",
             "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject",
-                "s3:GetBucketLocation",
-                "s3:PutObjectAcl",
-                "s3:ListBucket"
+            "Principal":{
+                "Sid": "PublicReadGetObject",
+                "Effect": "Allow",
+                "Principal": {
+                  "AWS": "arn:aws:iam::215318908877:user/*"
+                },
             ],
             "Resource": [
                 "arn:aws:s3:::primuslearning-githubactions-website/*",
