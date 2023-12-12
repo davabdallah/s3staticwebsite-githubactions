@@ -27,6 +27,11 @@ jobs:
           aws s3api create-bucket \
             --bucket primuslearning-githubactions-website \
             --region us-east-1 \
+    - name: Create 'public' Folder
+      run: |
+          aws s3api put-object \
+            --bucket primuslearning-githubactions-website \
+            --key public/
 
     - name: Set Bucket Policy
       run: |
