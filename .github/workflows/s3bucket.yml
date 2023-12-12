@@ -1,5 +1,3 @@
-name: Upload Website to S3
-
 on:
   push:
     branches:
@@ -8,10 +6,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v1
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -20,55 +17,66 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
     - name: Create S3 Bucket
       run: |
-        aws s3api create-bucket \
-          --bucket primuslearning-githubactions-website \
-          --region us-east-1
+          aws s3api create-bucket \
+            --bucket primuslearning-githubactions-website \
+            --region us-east-1 \
+            
+    - name: Create 'public' Folder
+      run: |
+          aws s3api put-object \
+            --bucket primuslearning-githubactions-website \
+            --key public/
 
     - name: Set Bucket Policy
       run: |
-        aws s3api put-bucket-policy \
-          --bucket primuslearning-githubactions-website \
-          --policy '{
+          aws s3api put-bucket-policy \
+            --bucket primuslearning-githubactions-website \
+            --policy '{
             "Version": "2012-10-17",
             "Id": "PublicReadGetObject",
             "Statement": [
-              {
-                "Sid": "PublicReadGetObject",
-                "Effect": "Allow",
-                "Principal": "*",
-                "Action": [
-                  "s3:GetObject",
-                  "s3:GetBucketLocation",
-                  "s3:PutObjectAcl",
-                  "s3:ListBucket"
-                ],
-                "Resource": [
-                  "arn:aws:s3:::primuslearning-githubactions-website/*",
-                  "arn:aws:s3:::primuslearning-githubactions-website"
-                ]
-              }
+            {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::215318908877:user/github-actions"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:GetBucketLocation",
+                "s3:PutObjectAcl",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::primuslearning-githubactions-website/*",
+                "arn:aws:s3:::primuslearning-githubactions-website"
             ]
-          }'
-
-    - name: Deploy static site to S3 bucket
-      run: |
-        aws s3 sync ./ s3://primuslearning-githubactions-website/ --delete
+            }
+                        ]
+            }'
 
     - name: Configure S3 Website
       run: |
-        aws s3api put-bucket-website \
-          --bucket primuslearning-githubactions-website \
-          --website-configuration '{
-            "IndexDocument": {
-              "Suffix": "index.html"
-            },
-            "ErrorDocument": {
-              "Key": "error.html"
-            }
-          }'
+          aws s3api put-bucket-website \
+            --bucket primuslearning-githubactions-website\
+            --website-configuration '{
+                "IndexDocument": {
+                    "Suffix": "index.html"
+                },
+                "ErrorDocument": {
+                    "Key": "error.html"
+                }
+            }'
+
 
     - name: Display Website URL
       run: |
-        echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
+          echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
+
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync ./public/ s3://primuslearning-githubactions-website --delete
