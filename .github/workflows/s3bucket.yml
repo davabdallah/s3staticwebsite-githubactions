@@ -24,6 +24,11 @@ jobs:
             --bucket primuslearning-githubactions-website \
             --region us-east-1
 
+          # Make the bucket publicly accessible
+          aws s3api put-bucket-acl \
+            --bucket primuslearning-githubactions-website \
+            --acl public-read
+
       - name: Set Bucket Policy for Public Read Access
         run: |
           aws s3api put-bucket-policy \
