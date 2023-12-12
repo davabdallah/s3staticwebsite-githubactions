@@ -18,12 +18,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create S3 Bucket with Public Read Access
+      - name: Create S3 Bucket with Website Configuration
         run: |
           aws s3api create-bucket \
             --bucket primuslearning-githubactions-website \
-            --region us-east-1 \
-            --acl public-read
+            --region us-east-1
+
+          aws s3api put-bucket-website \
+            --bucket primuslearning-githubactions-website \
+            --website-configuration '{
+                "IndexDocument": {
+                    "Suffix": "index.html"
+                },
+                "ErrorDocument": {
+                    "Key": "error.html"
+                }
+            }'
 
       - name: Set Bucket Policy for Public Read Access
         run: |
@@ -35,31 +45,13 @@ jobs:
                 {
                   "Effect": "Allow",
                   "Principal": "*",
-                  "Action": [
-                    "s3:GetObject",
-                    "s3:GetBucketLocation",
-                    "s3:PutObjectAcl",
-                    "s3:ListBucket"
-                  ],
+                  "Action": "s3:GetObject",
                   "Resource": [
                     "arn:aws:s3:::primuslearning-githubactions-website/*",
                     "arn:aws:s3:::primuslearning-githubactions-website"
                   ]
                 }
               ]
-            }'
-
-      - name: Configure S3 Website
-        run: |
-          aws s3api put-bucket-website \
-            --bucket primuslearning-githubactions-website \
-            --website-configuration '{
-                "IndexDocument": {
-                    "Suffix": "index.html"
-                },
-                "ErrorDocument": {
-                    "Key": "error.html"
-                }
             }'
 
       - name: Display Website URL
