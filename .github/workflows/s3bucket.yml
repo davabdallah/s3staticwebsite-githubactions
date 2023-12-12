@@ -18,15 +18,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create S3 Bucket
+      - name: Create S3 Bucket with Public Read Access
         run: |
           aws s3api create-bucket \
             --bucket primuslearning-githubactions-website \
-            --region us-east-1
-
-          # Make the bucket publicly accessible
-          aws s3api put-bucket-acl \
-            --bucket primuslearning-githubactions-website \
+            --region us-east-1 \
             --acl public-read
 
       - name: Set Bucket Policy for Public Read Access
