@@ -38,10 +38,10 @@ jobs:
           aws s3api put-bucket-policy \
             --bucket primuslearning-githubactions-website \
             --policy '{
-    "Version": "2012-10-17",
-    "Id": "PublicReadGetObject",
-    "Statement": [
-        {
+            "Version": "2012-10-17",
+            "Id": "PublicReadGetObject",
+            "Statement": [
+            {
             "Sid": "PublicReadGetObject",
             "Effect": "Allow",
             "Principal": {
@@ -56,9 +56,9 @@ jobs:
                 "arn:aws:s3:::primuslearning-githubactions-website/*",
                 "arn:aws:s3:::primuslearning-githubactions-website"
             ]
-        }
-    ]
-}'
+            }
+                        ]
+            }'
 
     - name: Display Website URL
       run: |
