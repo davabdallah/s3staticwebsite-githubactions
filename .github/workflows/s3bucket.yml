@@ -73,6 +73,13 @@ jobs:
                 }
             }'
 
+    - name: Set Object ACL for 'public' Folder
+      run: |
+          aws s3api put-object-acl \
+            --bucket primuslearning-githubactions-website \
+            --key public/ \
+            --acl public-read
+
     - name: Display Website URL
       run: |
           echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
