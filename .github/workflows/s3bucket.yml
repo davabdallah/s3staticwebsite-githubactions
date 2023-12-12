@@ -34,7 +34,12 @@ jobs:
                 {
                   "Effect": "Allow",
                   "Principal": "*",
-                  "Action": "s3:GetObject",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:GetBucketLocation",
+                    "s3:PutObjectAcl",
+                    "s3:ListBucket"
+                  ],
                   "Resource": [
                     "arn:aws:s3:::primuslearning-githubactions-website/*",
                     "arn:aws:s3:::primuslearning-githubactions-website"
