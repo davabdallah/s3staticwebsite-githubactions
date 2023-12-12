@@ -60,6 +60,19 @@ jobs:
                         ]
             }'
 
+    - name: Configure S3 Website
+      run: |
+          aws s3api put-bucket-website \
+            --bucket primuslearning-githubactions-website\
+            --website-configuration '{
+                "IndexDocument": {
+                    "Suffix": "index.html"
+                },
+                "ErrorDocument": {
+                    "Key": "error.html"
+                }
+            }'
+
     - name: Display Website URL
       run: |
           echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
