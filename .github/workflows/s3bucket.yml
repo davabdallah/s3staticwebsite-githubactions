@@ -27,7 +27,6 @@ jobs:
           aws s3api create-bucket \
             --bucket primuslearning-githubactions-website \
             --region us-east-1 \
-            --create-bucket-configuration LocationConstraint=us-east-1
 
     - name: Set Bucket Policy
       run: |
