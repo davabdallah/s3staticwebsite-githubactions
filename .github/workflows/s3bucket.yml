@@ -22,7 +22,8 @@ jobs:
         run: |
           aws s3api create-bucket \
             --bucket primuslearning-github-actions-website \
-            --region us-east-1
+            --region us-east-1 \
+            --acl public-read
 
           aws s3api put-bucket-website \
             --bucket primuslearning-github-actions-website \
