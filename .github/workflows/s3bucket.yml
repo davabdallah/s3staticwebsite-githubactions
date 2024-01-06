@@ -52,7 +52,7 @@ jobs:
                   ]
                 }
               ]
-            }'
+            }' || echo "Bucket policy failed with exit code $?, see above output for more details."
 
       - name: Display Website URL
         run: |
