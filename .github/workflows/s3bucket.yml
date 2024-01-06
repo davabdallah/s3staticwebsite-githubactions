@@ -37,29 +37,29 @@ jobs:
             }'
           set +x  # Disable debugging
 
-      # - name: Set Bucket Policy for Public Read Access
-      #   run: |
-      #     aws s3api put-bucket-policy \
-      #       --bucket primuslearning-githubactions-website \
-      #       --policy '{
-      #         "Version": "2012-10-17",
-      #         "Statement": [
-      #           {
-      #             "Effect": "Allow",
-      #             "Principal": "*",
-      #             "Action": "s3:GetObject",
-      #             "Resource": [
-      #               "arn:aws:s3:::primuslearning-githubactions-website/*",
-      #               "arn:aws:s3:::primuslearning-githubactions-website"
-      #             ]
-      #           }
-      #         ]
-      #       }'
+      - name: Set Bucket Policy for Public Read Access
+        run: |
+          aws s3api put-bucket-policy \
+            --bucket primuslearning-githubactions-website \
+            --policy '{
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "s3:GetObject",
+                  "Resource": [
+                    "arn:aws:s3:::primuslearning-githubactions-website/*",
+                    "arn:aws:s3:::primuslearning-githubactions-website"
+                  ]
+                }
+              ]
+            }'
 
-      # - name: Display Website URL
-      #   run: |
-      #     echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
+      - name: Display Website URL
+        run: |
+          echo "Your website is hosted at http://primuslearning-githubactions-website.s3-website-us-east-1.amazonaws.com"
 
-      # - name: Deploy static site to S3 bucket
-      #   run: |
-      #     aws s3 sync ./ s3://primuslearning-githubactions-website --delete
+      - name: Deploy static site to S3 bucket
+        run: |
+          aws s3 sync ./ s3://primuslearning-githubactions-website --delete
