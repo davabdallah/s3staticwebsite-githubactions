@@ -23,7 +23,8 @@ jobs:
           aws s3api create-bucket \
             --bucket primuslearning-github-actions-website \
             --region us-east-1 \
-            --acl public-read
+            --create-bucket-configuration LocationConstraint=us-east-1 \
+            --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
 
           aws s3api put-bucket-website \
             --bucket primuslearning-github-actions-website \
@@ -50,7 +51,7 @@ jobs:
                     }
                 ]
             }'
-
+            
       - name: Display Website URL
         run: |
           echo "Your website is hosted at http://primuslearning-github-actions-website.s3-website-us-east-1.amazonaws.com"
