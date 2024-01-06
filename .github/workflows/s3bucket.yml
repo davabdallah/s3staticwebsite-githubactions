@@ -23,7 +23,7 @@ jobs:
           aws s3api create-bucket \
             --bucket primuslearning-github-actions-website \
             --region us-east-1
-      
+
           aws s3api put-bucket-website \
             --bucket primuslearning-github-actions-website \
             --website-configuration '{
@@ -33,6 +33,21 @@ jobs:
                 "ErrorDocument": {
                     "Key": "error.html"
                 }
+            }'
+
+          # Add a bucket policy to allow public read access
+          aws s3api put-bucket-policy \
+            --bucket primuslearning-github-actions-website \
+            --policy '{
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": "*",
+                        "Action": "s3:GetObject",
+                        "Resource": "arn:aws:s3:::primuslearning-github-actions-website/*"
+                    }
+                ]
             }'
 
       - name: Display Website URL
