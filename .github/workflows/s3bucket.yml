@@ -20,20 +20,22 @@ jobs:
 
       - name: Create S3 Bucket with Website Configuration
         run: |
+          set -x  # Enable debugging
           aws s3api create-bucket \
             --bucket primuslearning-githubactions-website \
             --region us-east-1
-
-      #     aws s3api put-bucket-website \
-      #       --bucket primuslearning-githubactions-website \
-      #       --website-configuration '{
-      #           "IndexDocument": {
-      #               "Suffix": "index.html"
-      #           },
-      #           "ErrorDocument": {
-      #               "Key": "error.html"
-      #           }
-      #       }'
+      
+          aws s3api put-bucket-website \
+            --bucket primuslearning-githubactions-website \
+            --website-configuration '{
+                "IndexDocument": {
+                    "Suffix": "index.html"
+                },
+                "ErrorDocument": {
+                    "Key": "error.html"
+                }
+            }'
+          set +x  # Disable debugging
 
       # - name: Set Bucket Policy for Public Read Access
       #   run: |
