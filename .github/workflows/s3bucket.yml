@@ -23,7 +23,10 @@ jobs:
           aws s3api create-bucket \
             --bucket primuslearning-github-actions-website \
             --region us-east-1 \
-            --create-bucket-configuration LocationConstraint=us-east-1 \
+            --create-bucket-configuration LocationConstraint=us-east-1
+
+          aws s3api put-public-access-block \
+            --bucket primuslearning-github-actions-website \
             --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
 
           aws s3api put-bucket-website \
