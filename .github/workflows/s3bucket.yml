@@ -35,25 +35,6 @@ jobs:
                 }
             }'
 
-      - name: Set Bucket Policy for Public Read Access
-        run: |
-          aws s3api put-bucket-policy \
-            --bucket primuslearning-github-actions-website \
-            --policy '{
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Principal": "*",
-                  "Action": "s3:GetObject",
-                  "Resource": [
-                    "arn:aws:s3:::primuslearning-github-actions-website/*",
-                    "arn:aws:s3:::primuslearning-github-actions-website"
-                  ]
-                }
-              ]
-            }' || echo "Bucket policy failed with exit code $?, see above output for more details."
-
       - name: Display Website URL
         run: |
           echo "Your website is hosted at http://primuslearning-github-actions-website.s3-website-us-east-1.amazonaws.com"
