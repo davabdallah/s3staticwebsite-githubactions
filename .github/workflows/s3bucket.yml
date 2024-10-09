@@ -23,15 +23,15 @@ jobs:
       - name: Create S3 Bucket with Website Configuration
         run: |
           aws s3api create-bucket \
-            --bucket primuslearning-github-actions-website \
+            --bucket davidtest-github-actions-website \
             --region us-east-1
 
           aws s3api put-public-access-block \
-            --bucket primuslearning-github-actions-website \
+            --bucket davidtest-github-actions-website \
             --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
 
           aws s3api put-bucket-website \
-            --bucket primuslearning-github-actions-website \
+            --bucket davidtest-github-actions-website \
             --website-configuration '{
                 "IndexDocument": {
                     "Suffix": "index.html"
@@ -43,7 +43,7 @@ jobs:
 
           # Add a bucket policy to allow public read access
           aws s3api put-bucket-policy \
-            --bucket primuslearning-github-actions-website \
+            --bucket davidtest-github-actions-website \
             --policy '{
                 "Version": "2012-10-17",
                 "Statement": [
@@ -51,15 +51,15 @@ jobs:
                         "Effect": "Allow",
                         "Principal": "*",
                         "Action": "s3:GetObject",
-                        "Resource": "arn:aws:s3:::primuslearning-github-actions-website/*"
+                        "Resource": "arn:aws:s3:::davidtest-github-actions-website/*"
                     }
                 ]
             }'
             
       - name: Display Website URL
         run: |
-          echo "Your website is hosted at http://primuslearning-github-actions-website.s3-website-us-east-1.amazonaws.com"
+          echo "Your website is hosted at http://davidtest-github-actions-website.s3-website-us-east-1.amazonaws.com"
 
       - name: Deploy static site to S3 bucket
         run: |
-          aws s3 sync ./public/ s3://primuslearning-github-actions-website --delete
+          aws s3 sync ./public/ s3://davidtest-github-actions-website --delete
